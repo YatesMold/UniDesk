@@ -36,14 +36,19 @@ unidesk
 src/unidesk/
     main.py                   entry point
     home.py                   main window and all navigation logic
-    pages.py                  text content for each informational page
-    credits.py                list of contributors
-    links.py                  external links shown in the Links page
+    text_data.py              loads the text below from the bundled JSON
     academic_institutions.py  known universities and their departments
     academic_config.py        reads/writes the shared academic profile
+    resources/text_data/
+        pages.json            body text for each informational page
+        faq.json              FAQ entries as question/answer pairs
+        credits.json          list of contributors
+        links.json            external links shown in the Links page
+        navigation.json       nav button labels and footer links
+        ui_strings.json       buttons, titles and other interface text
 ```
 
-To update any page content just open `pages.py` and edit the body text for that page. To add a new contributor open `credits.py`.
+All user-facing text lives in `resources/text_data/`. To update page content edit `pages.json`; to add a contributor edit `credits.json`. No Python changes are needed to change copy.
 
 ## Academic profile
 
