@@ -4,24 +4,24 @@ import tempfile
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from PyQt6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QLabel,
-    QFrame,
-    QPushButton,
-    QStackedWidget,
-    QScrollArea,
-    QApplication,
-    QMainWindow,
-    QCheckBox,
-    QComboBox,
-)
-from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtGui import QDesktopServices
 from academic_config import load_academic_config, save_academic_config
 from academic_institutions import UNIVERSITIES
+from PyQt6.QtCore import Qt, QUrl
+from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtWidgets import (
+    QApplication,
+    QCheckBox,
+    QComboBox,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QScrollArea,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 from text_data import load, pages
 
 PAGES = pages()

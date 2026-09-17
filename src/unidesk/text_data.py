@@ -1,13 +1,13 @@
 """Loads UniDesk's user-facing text from the bundled JSON files."""
 
 import json
-from functools import lru_cache
+from functools import cache
 from importlib.resources import files
 
 _TEXT_DATA_PACKAGE = "unidesk.resources.text_data"
 
 
-@lru_cache(maxsize=None)
+@cache
 def load(name):
     """Return the parsed contents of <name>.json."""
     path = files(_TEXT_DATA_PACKAGE).joinpath(f"{name}.json")
