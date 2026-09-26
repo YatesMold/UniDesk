@@ -1,10 +1,6 @@
-import os
 import sys
 import tempfile
 
-sys.path.insert(0, os.path.dirname(__file__))
-
-from academic_config import load_academic_config, save_academic_config
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (
@@ -21,7 +17,10 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from text_data import load, pages
+
+from .helpers.academic_config import load_academic_config, save_academic_config
+from .helpers.autostart import set_autostart
+from .helpers.text_data import load, pages
 
 PAGES = pages()
 CREDITS = load("credits")["people"]
@@ -29,15 +28,6 @@ LINKS = load("links")["links"]
 UI = load("ui_strings")
 UNIVERSITIES = load("academic_institutions")["universities"]
 _NAV = load("navigation")
-
-AUTOSTART_PATH = os.path.expanduser("~/.config/autostart/unidesk.desktop")
-
-
-def _is_autostart_disabled():
-    if not os.path.exists(AUTOSTART_PATH):
-        return False
-    with open(AUTOSTART_PATH) as f:
-        return "Hidden=true" in f.read()
 
 
 FOOTER_LINKS = _NAV["footer_links"]
@@ -521,17 +511,7 @@ class UniOSWelcome(QMainWindow):
             self._page_indices[key] = self._stack.addWidget(widget)
 
     def _toggle_autostart(self, state):
-        if self._autostart_cb.isChecked():
-            if os.path.exists(AUTOSTART_PATH):
-                os.remove(AUTOSTART_PATH)
-        else:
-            os.makedirs(os.path.dirname(AUTOSTART_PATH), exist_ok=True)
-            with open(AUTOSTART_PATH, "w") as f:
-                f.write(
-                    "[Desktop Entry]\nType=Application\nName=UniDesk\n"
-                    "Exec=unidesk\nIcon=unios\nTerminal=false\n"
-                    "X-KDE-autostart-condition=false\nHidden=true\n"
-                )
+        set_autostart(self._autostart_cb.isChecked())
 
     def _show_page(self, key):
         self._stack.setCurrentIndex(self._page_indices[key])
