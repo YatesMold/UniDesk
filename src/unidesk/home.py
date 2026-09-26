@@ -9,10 +9,8 @@ from PyQt6.QtWidgets import (
     QComboBox,
     QFrame,
     QHBoxLayout,
-    QLabel,
     QMainWindow,
     QPushButton,
-    QScrollArea,
     QStackedWidget,
     QVBoxLayout,
     QWidget,
@@ -21,6 +19,7 @@ from PyQt6.QtWidgets import (
 from .helpers.academic_config import load_academic_config, save_academic_config
 from .helpers.autostart import set_autostart
 from .helpers.text_data import load, pages
+from .ui.widgets import NavButton, divider, footer, qlabel, scroll_page
 
 PAGES = pages()
 CREDITS = load("credits")["people"]
@@ -30,119 +29,8 @@ UNIVERSITIES = load("academic_institutions")["universities"]
 _NAV = load("navigation")
 
 
-FOOTER_LINKS = _NAV["footer_links"]
-
 NAV_LEFT = _NAV["nav_left"]
 NAV_RIGHT = _NAV["nav_right"]
-
-
-# Helpers
-
-
-def _qlabel(text, size=12, color="#cdd6f4", bold=False, wrap=False):
-    lbl = QLabel(text)
-    lbl.setStyleSheet(
-        f"background: transparent; border: none; color: {color}; "
-        f"font-size: {size}px; font-weight: {'bold' if bold else 'normal'};"
-    )
-    if wrap:
-        lbl.setWordWrap(True)
-    return lbl
-
-
-def _divider():
-    line = QFrame()
-    line.setFrameShape(QFrame.Shape.HLine)
-    line.setFixedHeight(1)
-    line.setStyleSheet("background-color: #2d1f3d; border: none;")
-    return line
-
-
-def _back_bar(title, on_back):
-    bar = QWidget()
-    bar.setFixedHeight(40)
-    bar.setStyleSheet("background: #110d1a;")
-    layout = QHBoxLayout(bar)
-    layout.setContentsMargins(12, 0, 12, 0)
-
-    btn = QPushButton(UI["back_button"])
-    btn.setFixedWidth(70)
-    btn.setStyleSheet(
-        "background: transparent; border: none; color: #a6adc8; "
-        "font-size: 12px; text-align: left;"
-    )
-    btn.setCursor(Qt.CursorShape.PointingHandCursor)
-    btn.clicked.connect(on_back)
-    layout.addWidget(btn)
-
-    lbl = QLabel(title)
-    lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    lbl.setStyleSheet(
-        "background: transparent; border: none; color: #cdd6f4; "
-        "font-size: 13px; font-weight: bold;"
-    )
-    layout.addWidget(lbl, stretch=1)
-    layout.addSpacing(70)
-    return bar
-
-
-def _scroll_page(on_back, title):
-    """Returns (outer_widget, content_layout) with back bar already added."""
-    widget = QWidget()
-    outer = QVBoxLayout(widget)
-    outer.setContentsMargins(0, 0, 0, 0)
-    outer.setSpacing(0)
-
-    outer.addWidget(_back_bar(title, on_back))
-    outer.addWidget(_divider())
-
-    scroll = QScrollArea()
-    scroll.setWidgetResizable(True)
-    scroll.setFrameShape(QFrame.Shape.NoFrame)
-    scroll.setStyleSheet("background: #1a1226;")
-    outer.addWidget(scroll)
-
-    content = QWidget()
-    content.setStyleSheet("background: transparent;")
-    scroll.setWidget(content)
-
-    cl = QVBoxLayout(content)
-    cl.setContentsMargins(24, 20, 24, 20)
-    cl.setSpacing(10)
-
-    outer.addWidget(_divider())
-    outer.addWidget(_footer())
-
-    return widget, cl
-
-
-def _footer(on_configure=None):
-    footer = QWidget()
-    footer.setFixedHeight(40)
-    footer.setStyleSheet("background: #110d1a;")
-    ft = QHBoxLayout(footer)
-    ft.setContentsMargins(14, 0, 14, 0)
-    ft.addWidget(_qlabel(UI["footer_copyright"], size=11, color="#585b70"))
-    ft.addStretch()
-
-    if on_configure is not None:
-        cfg = QPushButton(UI["configure_button"])
-        cfg.setStyleSheet(
-            "background: transparent; border: none; color: #8b5897; font-size: 11px;"
-        )
-        cfg.setCursor(Qt.CursorShape.PointingHandCursor)
-        cfg.clicked.connect(lambda _: on_configure())
-        ft.addWidget(cfg)
-
-    for link in FOOTER_LINKS:
-        b = QPushButton(link["label"])
-        b.setStyleSheet(
-            "background: transparent; border: none; color: #8b5897; font-size: 11px;"
-        )
-        b.setCursor(Qt.CursorShape.PointingHandCursor)
-        b.clicked.connect(lambda _, u=link["url"]: QDesktopServices.openUrl(QUrl(u)))
-        ft.addWidget(b)
-    return footer
 
 
 # Page Builders
@@ -150,9 +38,9 @@ def _footer(on_configure=None):
 
 def build_text_page(key, on_back):
     data = PAGES[key]
-    widget, cl = _scroll_page(on_back, key)
+    widget, cl = scroll_page(on_back, key)
 
-    body = _qlabel(data["body"], size=12, color="#a6adc8", wrap=True)
+    body = qlabel(data["body"], size=12, color="#a6adc8", wrap=True)
     body.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
     cl.addWidget(body)
     cl.addStretch()
@@ -161,7 +49,7 @@ def build_text_page(key, on_back):
 
 
 def build_credits_page(on_back):
-    widget, cl = _scroll_page(on_back, UI["credits_page_title"])
+    widget, cl = scroll_page(on_back, UI["credits_page_title"])
 
     for person in CREDITS:
         frame = QFrame()
@@ -173,20 +61,20 @@ def build_credits_page(on_back):
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(2)
 
-        name = _qlabel(person["name"], size=13, color="#cdd6f4", bold=True)
+        name = qlabel(person["name"], size=13, color="#cdd6f4", bold=True)
         name.setStyleSheet(
             name.styleSheet() + " background: transparent; border: none;"
         )
         fl.addWidget(name)
 
-        role = _qlabel(person["role"], size=11, color="#a6adc8")
+        role = qlabel(person["role"], size=11, color="#a6adc8")
         role.setStyleSheet(
             role.styleSheet() + " background: transparent; border: none;"
         )
         fl.addWidget(role)
 
         if person.get("projects"):
-            proj = _qlabel(
+            proj = qlabel(
                 UI["projects_prefix"] + ", ".join(person["projects"]),
                 size=11,
                 color="#8b5897",
@@ -203,7 +91,7 @@ def build_credits_page(on_back):
 
 
 def build_links_page(on_back):
-    widget, cl = _scroll_page(on_back, UI["links_page_title"])
+    widget, cl = scroll_page(on_back, UI["links_page_title"])
 
     for link in LINKS:
         frame = QFrame()
@@ -215,7 +103,7 @@ def build_links_page(on_back):
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(6)
 
-        name = _qlabel(link["label"], size=13, color="#cdd6f4", bold=True)
+        name = qlabel(link["label"], size=13, color="#cdd6f4", bold=True)
         name.setStyleSheet(
             name.styleSheet() + " background: transparent; border: none;"
         )
@@ -238,9 +126,9 @@ def build_links_page(on_back):
 
 
 def build_academic_config_page(on_back):
-    widget, cl = _scroll_page(on_back, UI["academic_config_page_title"])
+    widget, cl = scroll_page(on_back, UI["academic_config_page_title"])
 
-    intro = _qlabel(
+    intro = qlabel(
         UI["academic_config_intro"],
         size=12,
         color="#a6adc8",
@@ -256,7 +144,7 @@ def build_academic_config_page(on_back):
     )
 
     cl.addWidget(
-        _qlabel(UI["academic_university_label"], size=12, color="#cdd6f4", bold=True)
+        qlabel(UI["academic_university_label"], size=12, color="#cdd6f4", bold=True)
     )
     university_combo = QComboBox()
     university_combo.setStyleSheet(combo_style)
@@ -266,7 +154,7 @@ def build_academic_config_page(on_back):
     cl.addWidget(university_combo)
 
     cl.addWidget(
-        _qlabel(UI["academic_department_label"], size=12, color="#cdd6f4", bold=True)
+        qlabel(UI["academic_department_label"], size=12, color="#cdd6f4", bold=True)
     )
     department_combo = QComboBox()
     department_combo.setStyleSheet(combo_style)
@@ -274,7 +162,7 @@ def build_academic_config_page(on_back):
     department_combo.setCurrentIndex(-1)
     cl.addWidget(department_combo)
 
-    status = _qlabel("", size=11, color="#a6adc8", wrap=True)
+    status = qlabel("", size=11, color="#a6adc8", wrap=True)
 
     def refresh_departments():
         university = university_combo.currentText()
@@ -327,37 +215,6 @@ def build_academic_config_page(on_back):
     return widget
 
 
-# Nav button
-
-
-class NavButton(QPushButton):
-    def __init__(self, label, align_right=False):
-        super().__init__(label)
-        self.setFixedHeight(38)
-        self.setCursor(Qt.CursorShape.PointingHandCursor)
-
-        self.setStyleSheet("""
-            QPushButton {{
-                background-color: #2d1f3d;
-                border: 1px solid #8b5897;
-                border-radius: 5px;
-                color: #cdd6f4;
-                font-size: 12px;
-                font-weight: bold;
-                padding: 0 14px;
-                text-align: center;
-            }}
-            QPushButton:hover {{
-                background-color: #3d2a52;
-                border-color: #cba6f7;
-                color: #cba6f7;
-            }}
-            QPushButton:pressed {{
-                background-color: #211a2c;
-            }}
-        """)
-
-
 # Main Window
 
 
@@ -389,11 +246,11 @@ class UniOSWelcome(QMainWindow):
         hl.setContentsMargins(20, 20, 20, 16)
         hl.setSpacing(4)
 
-        hero_title = _qlabel(UI["hero_title"], size=26, color="#cba6f7", bold=True)
+        hero_title = qlabel(UI["hero_title"], size=26, color="#cba6f7", bold=True)
         hero_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         hl.addWidget(hero_title)
 
-        hero_sub = _qlabel(
+        hero_sub = qlabel(
             UI["hero_subtitle"],
             size=12,
             color="#a6adc8",
@@ -402,7 +259,7 @@ class UniOSWelcome(QMainWindow):
         hl.addWidget(hero_sub)
 
         mp.addWidget(hero)
-        mp.addWidget(_divider())
+        mp.addWidget(divider())
 
         # Nav columns
         nav_widget = QWidget()
@@ -494,8 +351,8 @@ class UniOSWelcome(QMainWindow):
         mp.addWidget(nav_widget, stretch=1)
         mp.addLayout(bottom_row)
 
-        mp.addWidget(_divider())
-        mp.addWidget(_footer())
+        mp.addWidget(divider())
+        mp.addWidget(footer())
         self._stack.addWidget(main_page)  # index 0
 
     def _build_subpages(self):
