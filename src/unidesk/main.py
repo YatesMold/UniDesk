@@ -2,7 +2,7 @@ import os
 import sys
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
-from .home import UniOSWelcome
+from .ui.main_window import UniOSWelcome
 
 
 def main():

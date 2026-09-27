@@ -1,9 +1,7 @@
-import sys
 import tempfile
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
-    QApplication,
     QCheckBox,
     QHBoxLayout,
     QMainWindow,
@@ -13,13 +11,13 @@ from PyQt6.QtWidgets import (
     QWidget,
 )
 
-from .helpers.autostart import set_autostart
-from .helpers.text_data import load, pages
-from .ui.pages.academic_config_page import build_academic_config_page
-from .ui.pages.credits_page import build_credits_page
-from .ui.pages.links_page import build_links_page
-from .ui.pages.text_page import build_text_page
-from .ui.widgets import NavButton, divider, footer, qlabel
+from ..helpers.autostart import set_autostart
+from ..helpers.text_data import load, pages
+from .pages.academic_config_page import build_academic_config_page
+from .pages.credits_page import build_credits_page
+from .pages.links_page import build_links_page
+from .pages.text_page import build_text_page
+from .widgets import NavButton, divider, footer, qlabel
 
 PAGES = pages()
 UI = load("ui_strings")
@@ -193,15 +191,3 @@ class UniOSWelcome(QMainWindow):
 
     def _show_academic_config(self):
         self._stack.setCurrentIndex(self._page_indices[UI["academic_config_page_title"]])
-
-
-def main():
-    app = QApplication(sys.argv)
-    app.setApplicationName("UniDesk")
-    window = UniOSWelcome()
-    window.show()
-    sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()
