@@ -123,7 +123,7 @@ def footer(on_configure=None):
 
 
 class NavButton(QPushButton):
-    def __init__(self, label, align_right=False):
+    def __init__(self, label):
         super().__init__(label)
         self.setFixedHeight(38)
         self.setCursor(Qt.CursorShape.PointingHandCursor)

@@ -84,7 +84,7 @@ class UniOSWelcome(QMainWindow):
         left_col = QVBoxLayout()
         left_col.setSpacing(10)
         for key in NAV_LEFT:
-            btn = NavButton(key, align_right=False)
+            btn = NavButton(key)
             btn.clicked.connect(lambda _, k=key: self._show_page(k))
             left_col.addWidget(btn)
         left_col.addStretch()
@@ -131,7 +131,6 @@ class UniOSWelcome(QMainWindow):
 
         self._autostart_cb.stateChanged.connect(self._toggle_autostart)
         cfg_btn = QPushButton(UI["configure_button"])
-        cfg_btn = QPushButton(UI["configure_button"])
         cfg_btn.setFixedHeight(28)
         cfg_btn.setStyleSheet("""
             QPushButton {
@@ -154,7 +153,7 @@ class UniOSWelcome(QMainWindow):
         right_col = QVBoxLayout()
         right_col.setSpacing(10)
         for key in NAV_RIGHT:
-            btn = NavButton(key, align_right=True)
+            btn = NavButton(key)
             btn.clicked.connect(lambda _, k=key: self._show_page(k))
             right_col.addWidget(btn)
         right_col.addStretch()
