@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QFrame, QVBoxLayout
 
 from ...helpers.text_data import load
+from ...styles.loader import load_qss
 from ..widgets import qlabel, scroll_page
 
 CREDITS = load("credits")["people"]
@@ -13,9 +14,7 @@ def build_credits_page(on_back):
     for person in CREDITS:
         frame = QFrame()
         frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setStyleSheet(
-            "QFrame { background-color: #2d1f3d; border: 1px solid #8b5897; border-radius: 5px; }"
-        )
+        frame.setStyleSheet(load_qss("pages/card_frame.qss"))
         fl = QVBoxLayout(frame)
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(2)

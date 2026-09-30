@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (
 
 from ..helpers.autostart import set_autostart
 from ..helpers.text_data import load, pages
+from ..styles.loader import load_qss
 from .pages.academic_config_page import build_academic_config_page
 from .pages.credits_page import build_credits_page
 from .pages.links_page import build_links_page
@@ -36,7 +37,7 @@ class UniOSWelcome(QMainWindow):
         super().__init__()
         self.setWindowTitle(UI["window_title"])
         self.setMinimumSize(580, 500)
-        self.setStyleSheet("background-color: #1a1226;")
+        self.setStyleSheet(load_qss("main_window/window.qss"))
 
         self._stack = QStackedWidget()
         self.setCentralWidget(self._stack)
@@ -47,14 +48,14 @@ class UniOSWelcome(QMainWindow):
 
     def _build_main(self):
         main_page = QWidget()
-        main_page.setStyleSheet("background: transparent;")
+        main_page.setStyleSheet(load_qss("main_window/transparent.qss"))
         mp = QVBoxLayout(main_page)
         mp.setContentsMargins(0, 0, 0, 0)
         mp.setSpacing(0)
 
         # Hero
         hero = QWidget()
-        hero.setStyleSheet("background: #211a2c;")
+        hero.setStyleSheet(load_qss("main_window/hero.qss"))
         hl = QVBoxLayout(hero)
         hl.setContentsMargins(20, 20, 20, 16)
         hl.setSpacing(4)
@@ -76,7 +77,7 @@ class UniOSWelcome(QMainWindow):
 
         # Nav columns
         nav_widget = QWidget()
-        nav_widget.setStyleSheet("background: transparent;")
+        nav_widget.setStyleSheet(load_qss("main_window/transparent.qss"))
         nav_layout = QHBoxLayout(nav_widget)
         nav_layout.setContentsMargins(28, 24, 28, 24)
         nav_layout.setSpacing(20)
@@ -132,17 +133,7 @@ class UniOSWelcome(QMainWindow):
         self._autostart_cb.stateChanged.connect(self._toggle_autostart)
         cfg_btn = QPushButton(UI["configure_button"])
         cfg_btn.setFixedHeight(28)
-        cfg_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #2d1f3d;
-                border: 1px solid #8b5897;
-                border-radius: 5px;
-                color: #cdd6f4;
-                font-size: 11px;
-                font-weight: bold;
-                padding: 0 12px;
-            }
-        """)
+        cfg_btn.setStyleSheet(load_qss("main_window/configure_button.qss"))
         cfg_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         cfg_btn.clicked.connect(self._show_academic_config)
 

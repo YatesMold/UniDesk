@@ -3,6 +3,7 @@ from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import QFrame, QPushButton, QVBoxLayout
 
 from ...helpers.text_data import load
+from ...styles.loader import load_qss
 from ..widgets import qlabel, scroll_page
 
 LINKS = load("links")["links"]
@@ -15,9 +16,7 @@ def build_links_page(on_back):
     for link in LINKS:
         frame = QFrame()
         frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setStyleSheet(
-            "QFrame { background-color: #2d1f3d; border: 1px solid #8b5897; border-radius: 5px; }"
-        )
+        frame.setStyleSheet(load_qss("pages/card_frame.qss"))
         fl = QVBoxLayout(frame)
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(6)
@@ -30,11 +29,7 @@ def build_links_page(on_back):
 
         btn = QPushButton(UI["open_link_button"])
         btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setStyleSheet(
-            "QPushButton { background-color: #89b4fa; color: #1e1e2e; font-weight: bold; "
-            "border: none; border-radius: 4px; padding: 5px 10px; font-size: 11px; }"
-            "QPushButton:hover { background-color: #b4befe; }"
-        )
+        btn.setStyleSheet(load_qss("pages/link_button.qss"))
         btn.clicked.connect(lambda _, u=link["url"]: QDesktopServices.openUrl(QUrl(u)))
         fl.addWidget(btn)
 

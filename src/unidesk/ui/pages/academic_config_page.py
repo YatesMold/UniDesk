@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QComboBox, QPushButton
 
 from ...helpers.academic_config import load_academic_config, save_academic_config
 from ...helpers.text_data import load
+from ...styles.loader import load_qss
 from ..widgets import qlabel, scroll_page
 
 UI = load("ui_strings")
@@ -20,12 +21,7 @@ def build_academic_config_page(on_back):
     )
     cl.addWidget(intro)
 
-    combo_style = (
-        "QComboBox { background-color: #2d1f3d; color: #cdd6f4; border: 1px solid #8b5897; "
-        "border-radius: 4px; padding: 6px 8px; font-size: 12px; }"
-        "QComboBox QAbstractItemView { background-color: #2d1f3d; color: #cdd6f4; "
-        "selection-background-color: #3d2a52; }"
-    )
+    combo_style = load_qss("pages/combo_box.qss")
 
     cl.addWidget(
         qlabel(UI["academic_university_label"], size=12, color="#cdd6f4", bold=True)
@@ -69,11 +65,7 @@ def build_academic_config_page(on_back):
 
     save_btn = QPushButton(UI["academic_save_button"])
     save_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-    save_btn.setStyleSheet(
-        "QPushButton { background-color: #89b4fa; color: #1e1e2e; font-weight: bold; "
-        "border: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; }"
-        "QPushButton:hover { background-color: #b4befe; }"
-    )
+    save_btn.setStyleSheet(load_qss("pages/save_button.qss"))
 
     def on_save():
         university = university_combo.currentText()
