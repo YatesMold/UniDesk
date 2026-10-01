@@ -35,9 +35,17 @@ unidesk
 ```
 src/unidesk/
     main.py                   entry point
-    home.py                   main window and all navigation logic
-    text_data.py              loads the text below from the bundled JSON
-    academic_config.py        reads/writes the shared academic profile
+    helpers/
+        text_data.py          loads the text below from the bundled JSON
+        academic_config.py    reads/writes the shared academic profile
+        autostart.py          manages launching UniDesk at login
+    ui/
+        main_window.py        main window and all navigation logic
+        widgets.py            shared widget helpers
+        pages/                builders for each page (text, links, credits, academic config)
+    styles/
+        loader.py             loads the bundled .qss stylesheets
+        main_window/, pages/, widgets/   .qss files grouped by where they're used
     assets/text_data/
         pages.json            body text for each informational page
         faq.json              FAQ entries as question/answer pairs
