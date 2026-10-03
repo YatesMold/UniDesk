@@ -58,15 +58,11 @@ class UniOSWelcome(QMainWindow):
         hl.setContentsMargins(20, 20, 20, 16)
         hl.setSpacing(4)
 
-        hero_title = qlabel(UI["hero_title"], size=26, color="#cba6f7", bold=True)
+        hero_title = qlabel(UI["hero_title"], role="title")
         hero_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         hl.addWidget(hero_title)
 
-        hero_sub = qlabel(
-            UI["hero_subtitle"],
-            size=12,
-            color="#a6adc8",
-        )
+        hero_sub = qlabel(UI["hero_subtitle"], role="body")
         hero_sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
         hl.addWidget(hero_sub)
 

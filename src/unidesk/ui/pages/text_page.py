@@ -10,7 +10,7 @@ def build_text_page(key, on_back):
     data = PAGES[key]
     widget, cl = scroll_page(on_back, key)
 
-    body = qlabel(data["body"], size=12, color="#a6adc8", wrap=True)
+    body = qlabel(data["body"], role="body", wrap=True)
     body.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
     cl.addWidget(body)
     cl.addStretch()

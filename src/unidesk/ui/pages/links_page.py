@@ -21,10 +21,7 @@ def build_links_page(on_back):
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(6)
 
-        name = qlabel(link["label"], size=13, color="#cdd6f4", bold=True)
-        name.setStyleSheet(
-            name.styleSheet() + " background: transparent; border: none;"
-        )
+        name = qlabel(link["label"], role="card-title")
         fl.addWidget(name)
 
         btn = QPushButton(UI["open_link_button"])

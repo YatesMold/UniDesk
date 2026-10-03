@@ -13,19 +13,12 @@ UNIVERSITIES = load("academic_institutions")["universities"]
 def build_academic_config_page(on_back):
     widget, cl = scroll_page(on_back, UI["academic_config_page_title"])
 
-    intro = qlabel(
-        UI["academic_config_intro"],
-        size=12,
-        color="#a6adc8",
-        wrap=True,
-    )
+    intro = qlabel(UI["academic_config_intro"], role="body", wrap=True)
     cl.addWidget(intro)
 
     combo_style = load_qss("pages/combo_box.qss")
 
-    cl.addWidget(
-        qlabel(UI["academic_university_label"], size=12, color="#cdd6f4", bold=True)
-    )
+    cl.addWidget(qlabel(UI["academic_university_label"], role="field-label"))
     university_combo = QComboBox()
     university_combo.setStyleSheet(combo_style)
     university_combo.setPlaceholderText(UI["academic_university_placeholder"])
@@ -33,16 +26,14 @@ def build_academic_config_page(on_back):
     university_combo.setCurrentIndex(-1)
     cl.addWidget(university_combo)
 
-    cl.addWidget(
-        qlabel(UI["academic_department_label"], size=12, color="#cdd6f4", bold=True)
-    )
+    cl.addWidget(qlabel(UI["academic_department_label"], role="field-label"))
     department_combo = QComboBox()
     department_combo.setStyleSheet(combo_style)
     department_combo.setPlaceholderText(UI["academic_department_placeholder"])
     department_combo.setCurrentIndex(-1)
     cl.addWidget(department_combo)
 
-    status = qlabel("", size=11, color="#a6adc8", wrap=True)
+    status = qlabel("", role="muted", wrap=True)
 
     def refresh_departments():
         university = university_combo.currentText()

@@ -17,12 +17,10 @@ UI = load("ui_strings")
 FOOTER_LINKS = load("navigation")["footer_links"]
 
 
-def qlabel(text, size=12, color="#cdd6f4", bold=False, wrap=False):
+def qlabel(text, role="body", wrap=False):
     lbl = QLabel(text)
-    lbl.setStyleSheet(
-        f"background: transparent; border: none; color: {color}; "
-        f"font-size: {size}px; font-weight: {'bold' if bold else 'normal'};"
-    )
+    lbl.setProperty("role", role)
+    lbl.setStyleSheet(load_qss("widgets/labels.qss"))
     if wrap:
         lbl.setWordWrap(True)
     return lbl
@@ -94,7 +92,7 @@ def footer(on_configure=None):
     footer.setStyleSheet(load_qss("widgets/dark_bar.qss"))
     ft = QHBoxLayout(footer)
     ft.setContentsMargins(14, 0, 14, 0)
-    ft.addWidget(qlabel(UI["footer_copyright"], size=11, color="#585b70"))
+    ft.addWidget(qlabel(UI["footer_copyright"], role="footer"))
     ft.addStretch()
 
     if on_configure is not None:
