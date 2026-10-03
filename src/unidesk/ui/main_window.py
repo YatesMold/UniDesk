@@ -1,5 +1,3 @@
-import tempfile
-
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QCheckBox,
@@ -13,7 +11,7 @@ from PyQt6.QtWidgets import (
 
 from ..helpers.autostart import set_autostart
 from ..helpers.text_data import load, pages
-from ..styles.loader import load_qss
+from ..styles.loader import load_qss, resolve_asset_path
 from .pages.academic_config_page import build_academic_config_page
 from .pages.credits_page import build_credits_page
 from .pages.links_page import build_links_page
@@ -94,11 +92,6 @@ class UniOSWelcome(QMainWindow):
         bottom_row.setContentsMargins(28, 0, 28, 14)
         self._autostart_cb = QCheckBox(UI["autostart_checkbox"])
         self._autostart_cb.setChecked(True)
-        _svg = b"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><polyline points='3,8 6,12 13,4' fill='none' stroke='#cdd6f4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>"
-        _f = tempfile.NamedTemporaryFile(suffix=".svg", delete=False)
-        _f.write(_svg)
-        _f.flush()
-        _check_path = _f.name
 
         self._autostart_cb.setStyleSheet(
             """
@@ -121,13 +114,12 @@ class UniOSWelcome(QMainWindow):
             QCheckBox::indicator:checked {
                 background-color: #8b5897;
                 border-color: #cba6f7;
-                image: url(%s);
+                image: url("__CHECK_SVG__");
             }
             QCheckBox::indicator:checked:hover {
                 background-color: #9b68a7;
             }
-        """
-            % _check_path
+        """.replace("__CHECK_SVG__", str(resolve_asset_path("check.svg")))
         )
 
         self._autostart_cb.stateChanged.connect(self._toggle_autostart)
