@@ -1,7 +1,9 @@
 import os
 import sys
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QApplication
+
 from .ui.main_window import UniOSWelcome
 
 
