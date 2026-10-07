@@ -44,8 +44,12 @@ src/unidesk/
         widgets.py            shared widget helpers
         pages/                builders for each page (text, links, credits, academic config)
     styles/
-        loader.py             loads the bundled .qss stylesheets
-        main_window/, pages/, widgets/   .qss files grouped by where they're used
+        loader.py             loads the bundled .qss stylesheets and assets
+        check.svg             checkmark icon for checkboxes
+        widgets/
+            controls.qss      buttons, checkbox and combo box roles
+            labels.qss        label text roles
+            layout.qss        backgrounds for windows, bars, cards and dividers
     assets/text_data/
         pages.json            body text for each informational page
         faq.json              FAQ entries as question/answer pairs

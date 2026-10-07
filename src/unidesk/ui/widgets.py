@@ -124,4 +124,5 @@ class NavButton(QPushButton):
         self.setFixedHeight(38)
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
-        self.setStyleSheet(load_qss("widgets/nav_button.qss"))
+        self.setProperty("button", "nav")
+        self.setStyleSheet(load_qss("widgets/controls.qss"))
