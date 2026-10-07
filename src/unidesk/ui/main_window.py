@@ -35,7 +35,8 @@ class UniOSWelcome(QMainWindow):
         super().__init__()
         self.setWindowTitle(UI["window_title"])
         self.setMinimumSize(580, 500)
-        self.setStyleSheet(load_qss("main_window/window.qss"))
+        self.setProperty("layout", "window")
+        self.setStyleSheet(load_qss("widgets/layout.qss"))
 
         self._stack = QStackedWidget()
         self.setCentralWidget(self._stack)
@@ -46,14 +47,16 @@ class UniOSWelcome(QMainWindow):
 
     def _build_main(self):
         main_page = QWidget()
-        main_page.setStyleSheet(load_qss("main_window/transparent.qss"))
+        main_page.setProperty("layout", "transparent")
+        main_page.setStyleSheet(load_qss("widgets/layout.qss"))
         mp = QVBoxLayout(main_page)
         mp.setContentsMargins(0, 0, 0, 0)
         mp.setSpacing(0)
 
         # Hero
         hero = QWidget()
-        hero.setStyleSheet(load_qss("main_window/hero.qss"))
+        hero.setProperty("layout", "hero")
+        hero.setStyleSheet(load_qss("widgets/layout.qss"))
         hl = QVBoxLayout(hero)
         hl.setContentsMargins(20, 20, 20, 16)
         hl.setSpacing(4)
@@ -71,7 +74,8 @@ class UniOSWelcome(QMainWindow):
 
         # Nav columns
         nav_widget = QWidget()
-        nav_widget.setStyleSheet(load_qss("main_window/transparent.qss"))
+        nav_widget.setProperty("layout", "transparent")
+        nav_widget.setStyleSheet(load_qss("widgets/layout.qss"))
         nav_layout = QHBoxLayout(nav_widget)
         nav_layout.setContentsMargins(28, 24, 28, 24)
         nav_layout.setSpacing(20)

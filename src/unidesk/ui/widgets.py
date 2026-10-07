@@ -30,14 +30,16 @@ def divider():
     line = QFrame()
     line.setFrameShape(QFrame.Shape.HLine)
     line.setFixedHeight(1)
-    line.setStyleSheet(load_qss("widgets/divider.qss"))
+    line.setProperty("layout", "divider")
+    line.setStyleSheet(load_qss("widgets/layout.qss"))
     return line
 
 
 def back_bar(title, on_back):
     bar = QWidget()
     bar.setFixedHeight(40)
-    bar.setStyleSheet(load_qss("widgets/dark_bar.qss"))
+    bar.setProperty("layout", "bar")
+    bar.setStyleSheet(load_qss("widgets/layout.qss"))
     layout = QHBoxLayout(bar)
     layout.setContentsMargins(12, 0, 12, 0)
 
@@ -69,11 +71,13 @@ def scroll_page(on_back, title):
     scroll = QScrollArea()
     scroll.setWidgetResizable(True)
     scroll.setFrameShape(QFrame.Shape.NoFrame)
-    scroll.setStyleSheet(load_qss("widgets/scroll_area.qss"))
+    scroll.setProperty("layout", "scroll")
+    scroll.setStyleSheet(load_qss("widgets/layout.qss"))
     outer.addWidget(scroll)
 
     content = QWidget()
-    content.setStyleSheet(load_qss("widgets/transparent.qss"))
+    content.setProperty("layout", "transparent")
+    content.setStyleSheet(load_qss("widgets/layout.qss"))
     scroll.setWidget(content)
 
     cl = QVBoxLayout(content)
@@ -89,7 +93,8 @@ def scroll_page(on_back, title):
 def footer(on_configure=None):
     footer = QWidget()
     footer.setFixedHeight(40)
-    footer.setStyleSheet(load_qss("widgets/dark_bar.qss"))
+    footer.setProperty("layout", "bar")
+    footer.setStyleSheet(load_qss("widgets/layout.qss"))
     ft = QHBoxLayout(footer)
     ft.setContentsMargins(14, 0, 14, 0)
     ft.addWidget(qlabel(UI["footer_copyright"], role="footer"))
