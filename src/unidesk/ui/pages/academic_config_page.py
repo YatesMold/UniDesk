@@ -35,6 +35,12 @@ def build_academic_config_page(on_back):
 
     status = qlabel("", role="muted", wrap=True)
 
+    def set_status_error(error):
+        status.setProperty("state", "error" if error else "")
+        # Qt won't re-evaluate property selectors on a shown widget unless repolished.
+        status.style().unpolish(status)
+        status.style().polish(status)
+
     def refresh_departments():
         university = university_combo.currentText()
         department_combo.clear()
@@ -63,7 +69,7 @@ def build_academic_config_page(on_back):
         department = department_combo.currentText()
         if not university or not department:
             status.setText(UI["academic_error_incomplete"])
-            status.setStyleSheet(status.styleSheet().replace("#a6adc8", "#f38ba8"))
+            set_status_error(True)
             return
         save_academic_config(university, department)
         status.setText(
@@ -71,7 +77,7 @@ def build_academic_config_page(on_back):
                 university=university, department=department
             )
         )
-        status.setStyleSheet(status.styleSheet().replace("#f38ba8", "#a6adc8"))
+        set_status_error(False)
 
     save_btn.clicked.connect(lambda _: on_save())
 
