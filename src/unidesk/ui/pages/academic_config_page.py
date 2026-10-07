@@ -62,7 +62,8 @@ def build_academic_config_page(on_back):
 
     save_btn = QPushButton(UI["academic_save_button"])
     save_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-    save_btn.setStyleSheet(load_qss("pages/save_button.qss"))
+    save_btn.setProperty("button", "save")
+    save_btn.setStyleSheet(load_qss("widgets/controls.qss"))
 
     def on_save():
         university = university_combo.currentText()

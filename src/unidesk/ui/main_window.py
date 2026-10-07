@@ -125,7 +125,8 @@ class UniOSWelcome(QMainWindow):
         self._autostart_cb.stateChanged.connect(self._toggle_autostart)
         cfg_btn = QPushButton(UI["configure_button"])
         cfg_btn.setFixedHeight(28)
-        cfg_btn.setStyleSheet(load_qss("main_window/configure_button.qss"))
+        cfg_btn.setProperty("button", "configure")
+        cfg_btn.setStyleSheet(load_qss("widgets/controls.qss"))
         cfg_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         cfg_btn.clicked.connect(self._show_academic_config)
 

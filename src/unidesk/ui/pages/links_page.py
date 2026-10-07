@@ -27,7 +27,8 @@ def build_links_page(on_back):
 
         btn = QPushButton(UI["open_link_button"])
         btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setStyleSheet(load_qss("pages/link_button.qss"))
+        btn.setProperty("button", "link")
+        btn.setStyleSheet(load_qss("widgets/controls.qss"))
         btn.clicked.connect(lambda _, u=link["url"]: QDesktopServices.openUrl(QUrl(u)))
         fl.addWidget(btn)
 

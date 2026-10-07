@@ -45,14 +45,14 @@ def back_bar(title, on_back):
 
     btn = QPushButton(UI["back_button"])
     btn.setFixedWidth(70)
-    btn.setStyleSheet(load_qss("widgets/back_button.qss"))
+    btn.setProperty("button", "back")
+    btn.setStyleSheet(load_qss("widgets/controls.qss"))
     btn.setCursor(Qt.CursorShape.PointingHandCursor)
     btn.clicked.connect(on_back)
     layout.addWidget(btn)
 
-    lbl = QLabel(title)
+    lbl = qlabel(title, role="card-title")
     lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-    lbl.setStyleSheet(load_qss("widgets/back_title.qss"))
     layout.addWidget(lbl, stretch=1)
     layout.addSpacing(70)
     return bar
@@ -102,14 +102,16 @@ def footer(on_configure=None):
 
     if on_configure is not None:
         cfg = QPushButton(UI["configure_button"])
-        cfg.setStyleSheet(load_qss("widgets/footer_link.qss"))
+        cfg.setProperty("button", "footer-link")
+        cfg.setStyleSheet(load_qss("widgets/controls.qss"))
         cfg.setCursor(Qt.CursorShape.PointingHandCursor)
         cfg.clicked.connect(lambda _: on_configure())
         ft.addWidget(cfg)
 
     for link in FOOTER_LINKS:
         b = QPushButton(link["label"])
-        b.setStyleSheet(load_qss("widgets/footer_link.qss"))
+        b.setProperty("button", "footer-link")
+        b.setStyleSheet(load_qss("widgets/controls.qss"))
         b.setCursor(Qt.CursorShape.PointingHandCursor)
         b.clicked.connect(lambda _, u=link["url"]: QDesktopServices.openUrl(QUrl(u)))
         ft.addWidget(b)
