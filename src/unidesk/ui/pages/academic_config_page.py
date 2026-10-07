@@ -16,11 +16,10 @@ def build_academic_config_page(on_back):
     intro = qlabel(UI["academic_config_intro"], role="body", wrap=True)
     cl.addWidget(intro)
 
-    combo_style = load_qss("pages/combo_box.qss")
-
     cl.addWidget(qlabel(UI["academic_university_label"], role="field-label"))
     university_combo = QComboBox()
-    university_combo.setStyleSheet(combo_style)
+    university_combo.setProperty("control", "academic")
+    university_combo.setStyleSheet(load_qss("widgets/controls.qss"))
     university_combo.setPlaceholderText(UI["academic_university_placeholder"])
     university_combo.addItems(list(UNIVERSITIES.keys()))
     university_combo.setCurrentIndex(-1)
@@ -28,7 +27,8 @@ def build_academic_config_page(on_back):
 
     cl.addWidget(qlabel(UI["academic_department_label"], role="field-label"))
     department_combo = QComboBox()
-    department_combo.setStyleSheet(combo_style)
+    department_combo.setProperty("control", "academic")
+    department_combo.setStyleSheet(load_qss("widgets/controls.qss"))
     department_combo.setPlaceholderText(UI["academic_department_placeholder"])
     department_combo.setCurrentIndex(-1)
     cl.addWidget(department_combo)

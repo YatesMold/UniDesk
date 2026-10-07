@@ -13,8 +13,11 @@ atexit.register(_asset_stack.close)
 
 @cache
 def load_qss(filename):
-    """Return the raw contents of <filename> from the styles package."""
-    return files("unidesk.styles").joinpath(filename).read_text(encoding="utf-8")
+    """Return <filename> from the styles package, with asset tokens resolved."""
+    qss = files("unidesk.styles").joinpath(filename).read_text(encoding="utf-8")
+    if "__CHECK_SVG__" in qss:
+        qss = qss.replace("__CHECK_SVG__", str(resolve_asset_path("check.svg")))
+    return qss
 
 
 @cache

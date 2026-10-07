@@ -11,7 +11,7 @@ from PyQt6.QtWidgets import (
 
 from ..helpers.autostart import set_autostart
 from ..helpers.text_data import load, pages
-from ..styles.loader import load_qss, resolve_asset_path
+from ..styles.loader import load_qss
 from .pages.academic_config_page import build_academic_config_page
 from .pages.credits_page import build_credits_page
 from .pages.links_page import build_links_page
@@ -92,35 +92,8 @@ class UniOSWelcome(QMainWindow):
         bottom_row.setContentsMargins(28, 0, 28, 14)
         self._autostart_cb = QCheckBox(UI["autostart_checkbox"])
         self._autostart_cb.setChecked(True)
-
-        self._autostart_cb.setStyleSheet(
-            """
-            QCheckBox {
-                color: #a6adc8;
-                font-size: 12px;
-                background: transparent;
-                spacing: 8px;
-            }
-            QCheckBox::indicator {
-                width: 16px;
-                height: 16px;
-                border: 1px solid #585b70;
-                border-radius: 4px;
-                background: transparent;
-            }
-            QCheckBox::indicator:hover {
-                border-color: #a6adc8;
-            }
-            QCheckBox::indicator:checked {
-                background-color: #8b5897;
-                border-color: #cba6f7;
-                image: url("__CHECK_SVG__");
-            }
-            QCheckBox::indicator:checked:hover {
-                background-color: #9b68a7;
-            }
-        """.replace("__CHECK_SVG__", str(resolve_asset_path("check.svg")))
-        )
+        self._autostart_cb.setProperty("control", "autostart")
+        self._autostart_cb.setStyleSheet(load_qss("widgets/controls.qss"))
 
         self._autostart_cb.stateChanged.connect(self._toggle_autostart)
         cfg_btn = QPushButton(UI["configure_button"])
