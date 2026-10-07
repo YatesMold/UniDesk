@@ -1,7 +1,9 @@
 /* Η σειρά έχει σημασία: οι κανόνες "descendant" (με *) πρέπει να
    μένουν πρώτοι. Έχουν ίδια ειδικότητα με τους κανόνες ρόλων, και
    αν μπουν μετά, κερδίζουν αυτοί και βάφουν λάθος παιδιά (hero,
-   divider, footer, scroll content). */
+   divider, footer, scroll content). Ο κανόνας "card" πρέπει να μένει
+   τελευταίος, μετά τους descendant κανόνες: το card frame είναι μέσα σε
+   transparent/scroll γονείς, οπότε το * το πιάνει με ίδια ειδικότητα. */
 QWidget[layout="transparent"] * { background: transparent; }
 QScrollArea[layout="scroll"] * { background: #1a1226; }
 QMainWindow[layout="window"] { background-color: #1a1226; }
@@ -10,3 +12,4 @@ QWidget[layout="bar"] { background: #110d1a; }
 QWidget[layout="transparent"] { background: transparent; }
 QScrollArea[layout="scroll"] { background: #1a1226; }
 QFrame[layout="divider"] { background-color: #2d1f3d; border: none; }
+QFrame[layout="card"] { background-color: #2d1f3d; border: 1px solid #8b5897; border-radius: 5px; }

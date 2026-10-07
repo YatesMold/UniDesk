@@ -16,7 +16,8 @@ def build_links_page(on_back):
     for link in LINKS:
         frame = QFrame()
         frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setStyleSheet(load_qss("pages/card_frame.qss"))
+        frame.setProperty("layout", "card")
+        frame.setStyleSheet(load_qss("widgets/layout.qss"))
         fl = QVBoxLayout(frame)
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(6)

@@ -14,7 +14,8 @@ def build_credits_page(on_back):
     for person in CREDITS:
         frame = QFrame()
         frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setStyleSheet(load_qss("pages/card_frame.qss"))
+        frame.setProperty("layout", "card")
+        frame.setStyleSheet(load_qss("widgets/layout.qss"))
         fl = QVBoxLayout(frame)
         fl.setContentsMargins(14, 10, 14, 10)
         fl.setSpacing(2)
