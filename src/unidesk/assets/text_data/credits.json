@@ -2,7 +2,7 @@
   "people": [
     {
       "name": "Apostolos Chalis",
-      "role": "Main Developer",
+      "role": "Lead Engineer",
       "projects": [
         "UniOS",
         "UniBackpack",
@@ -19,11 +19,11 @@
     },
     {
       "name": "Malamatenia Soulioti",
-      "role": "Main Designer"
+      "role": "Lead Designer"
     },
     {
       "name": "Ioannis Michadasis",
-      "role": "Developer",
+      "role": "Engineer",
       "projects": [
         "UniOS",
         "UniBackpack",
@@ -39,7 +39,7 @@
     },
     {
       "name": "George David Apostolidis",
-      "role": "Developer",
+      "role": "Engineer",
       "projects": [
         "UniNews"
       ]
