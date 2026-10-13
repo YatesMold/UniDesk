@@ -6,7 +6,7 @@
     },
     {
       "question": "How do I update the system?",
-      "answer": "Run `sudo apt update && sudo apt upgrade` in a terminal."
+      "answer": "Run `sudo pacman -Syu or use unios-update in a terminal."
     },
     {
       "question": "Something is broken. Where do I report it?",
