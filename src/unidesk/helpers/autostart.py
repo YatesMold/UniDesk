@@ -1,3 +1,5 @@
+"""Per-user override of the UniDesk autostart entry."""
+
 import os
 
 # Disabling autostart drops a hidden override of the system-wide entry that
@@ -12,9 +14,10 @@ _DISABLED_ENTRY = (
 
 
 def is_autostart_disabled():
+    """Return True if the user has written an override hiding the autostart entry."""
     if not os.path.exists(AUTOSTART_PATH):
         return False
-    with open(AUTOSTART_PATH) as f:
+    with open(AUTOSTART_PATH, encoding="utf-8") as f:
         return "Hidden=true" in f.read()
 
 
@@ -25,5 +28,5 @@ def set_autostart(enabled):
             os.remove(AUTOSTART_PATH)
     else:
         os.makedirs(os.path.dirname(AUTOSTART_PATH), exist_ok=True)
-        with open(AUTOSTART_PATH, "w") as f:
+        with open(AUTOSTART_PATH, "w", encoding="utf-8") as f:
             f.write(_DISABLED_ENTRY)

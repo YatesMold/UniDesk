@@ -15,6 +15,7 @@ setup(
         "unidesk.styles": ["*/*.qss", "*.svg"],
     },
     install_requires=["PyQt6"],
+    extras_require={"dev": ["ruff", "pylint"]},
     entry_points={
         'console_scripts': [
             'unidesk = unidesk.main:main',

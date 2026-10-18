@@ -1,3 +1,5 @@
+"""Shared widget builders used by the main window and its pages."""
+
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QDesktopServices
 from PyQt6.QtWidgets import (
@@ -18,6 +20,7 @@ FOOTER_LINKS = load("navigation")["footer_links"]
 
 
 def qlabel(text, role="body", wrap=False):
+    """Return a QLabel styled by its semantic role."""
     lbl = QLabel(text)
     lbl.setProperty("role", role)
     lbl.setStyleSheet(load_qss("widgets/labels.qss"))
@@ -27,6 +30,7 @@ def qlabel(text, role="body", wrap=False):
 
 
 def divider():
+    """Return a 1px horizontal separator line."""
     line = QFrame()
     line.setFrameShape(QFrame.Shape.HLine)
     line.setFixedHeight(1)
@@ -36,11 +40,12 @@ def divider():
 
 
 def back_bar(title, on_back):
-    bar = QWidget()
-    bar.setFixedHeight(40)
-    bar.setProperty("layout", "bar")
-    bar.setStyleSheet(load_qss("widgets/layout.qss"))
-    layout = QHBoxLayout(bar)
+    """Return the top bar of a subpage: a Back button and a centred title."""
+    bar_widget = QWidget()
+    bar_widget.setFixedHeight(40)
+    bar_widget.setProperty("layout", "bar")
+    bar_widget.setStyleSheet(load_qss("widgets/layout.qss"))
+    layout = QHBoxLayout(bar_widget)
     layout.setContentsMargins(12, 0, 12, 0)
 
     btn = QPushButton(UI["back_button"])
@@ -55,7 +60,7 @@ def back_bar(title, on_back):
     lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
     layout.addWidget(lbl, stretch=1)
     layout.addSpacing(70)
-    return bar
+    return bar_widget
 
 
 def scroll_page(on_back, title):
@@ -90,12 +95,25 @@ def scroll_page(on_back, title):
     return widget, cl
 
 
+def card(spacing):
+    """Returns (frame, layout) for a bordered content card."""
+    frame = QFrame()
+    frame.setFrameShape(QFrame.Shape.StyledPanel)
+    frame.setProperty("layout", "card")
+    frame.setStyleSheet(load_qss("widgets/layout.qss"))
+    fl = QVBoxLayout(frame)
+    fl.setContentsMargins(14, 10, 14, 10)
+    fl.setSpacing(spacing)
+    return frame, fl
+
+
 def footer(on_configure=None):
-    footer = QWidget()
-    footer.setFixedHeight(40)
-    footer.setProperty("layout", "bar")
-    footer.setStyleSheet(load_qss("widgets/layout.qss"))
-    ft = QHBoxLayout(footer)
+    """Return the footer bar with the copyright notice and external links."""
+    footer_widget = QWidget()
+    footer_widget.setFixedHeight(40)
+    footer_widget.setProperty("layout", "bar")
+    footer_widget.setStyleSheet(load_qss("widgets/layout.qss"))
+    ft = QHBoxLayout(footer_widget)
     ft.setContentsMargins(14, 0, 14, 0)
     ft.addWidget(qlabel(UI["footer_copyright"], role="footer"))
     ft.addStretch()
@@ -115,10 +133,12 @@ def footer(on_configure=None):
         b.setCursor(Qt.CursorShape.PointingHandCursor)
         b.clicked.connect(lambda _, u=link["url"]: QDesktopServices.openUrl(QUrl(u)))
         ft.addWidget(b)
-    return footer
+    return footer_widget
 
 
 class NavButton(QPushButton):
+    """Large button on the main page that opens a subpage."""
+
     def __init__(self, label):
         super().__init__(label)
         self.setFixedHeight(38)

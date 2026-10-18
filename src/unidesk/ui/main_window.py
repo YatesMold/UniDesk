@@ -1,3 +1,5 @@
+"""UniDesk main window."""
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QCheckBox,
@@ -31,6 +33,8 @@ NAV_RIGHT = _NAV["nav_right"]
 
 
 class UniOSWelcome(QMainWindow):
+    """Main window: a hero, the nav buttons, and a stack of subpages."""
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle(UI["window_title"])
@@ -53,7 +57,31 @@ class UniOSWelcome(QMainWindow):
         mp.setContentsMargins(0, 0, 0, 0)
         mp.setSpacing(0)
 
-        # Hero
+        mp.addWidget(self._build_hero())
+        mp.addWidget(divider())
+
+        # Nav columns
+        nav_widget = QWidget()
+        nav_widget.setProperty("layout", "transparent")
+        nav_widget.setStyleSheet(load_qss("widgets/layout.qss"))
+        nav_layout = QHBoxLayout(nav_widget)
+        nav_layout.setContentsMargins(28, 24, 28, 24)
+        nav_layout.setSpacing(20)
+
+        left_col = self._build_nav_column(NAV_LEFT)
+        bottom_row, self._autostart_cb = self._build_bottom_row()
+        right_col = self._build_nav_column(NAV_RIGHT)
+
+        nav_layout.addLayout(left_col)
+        nav_layout.addLayout(right_col)
+        mp.addWidget(nav_widget, stretch=1)
+        mp.addLayout(bottom_row)
+
+        mp.addWidget(divider())
+        mp.addWidget(footer())
+        self._stack.addWidget(main_page)  # index 0
+
+    def _build_hero(self):
         hero = QWidget()
         hero.setProperty("layout", "hero")
         hero.setStyleSheet(load_qss("widgets/layout.qss"))
@@ -68,34 +96,27 @@ class UniOSWelcome(QMainWindow):
         hero_sub = qlabel(UI["hero_subtitle"], role="body")
         hero_sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
         hl.addWidget(hero_sub)
+        return hero
 
-        mp.addWidget(hero)
-        mp.addWidget(divider())
-
-        # Nav columns
-        nav_widget = QWidget()
-        nav_widget.setProperty("layout", "transparent")
-        nav_widget.setStyleSheet(load_qss("widgets/layout.qss"))
-        nav_layout = QHBoxLayout(nav_widget)
-        nav_layout.setContentsMargins(28, 24, 28, 24)
-        nav_layout.setSpacing(20)
-
-        left_col = QVBoxLayout()
-        left_col.setSpacing(10)
-        for key in NAV_LEFT:
+    def _build_nav_column(self, keys):
+        col = QVBoxLayout()
+        col.setSpacing(10)
+        for key in keys:
             btn = NavButton(key)
             btn.clicked.connect(lambda _, k=key: self._show_page(k))
-            left_col.addWidget(btn)
-        left_col.addStretch()
+            col.addWidget(btn)
+        col.addStretch()
+        return col
 
+    def _build_bottom_row(self):
         bottom_row = QHBoxLayout()
         bottom_row.setContentsMargins(28, 0, 28, 14)
-        self._autostart_cb = QCheckBox(UI["autostart_checkbox"])
-        self._autostart_cb.setChecked(True)
-        self._autostart_cb.setProperty("control", "autostart")
-        self._autostart_cb.setStyleSheet(load_qss("widgets/controls.qss"))
+        autostart_cb = QCheckBox(UI["autostart_checkbox"])
+        autostart_cb.setChecked(True)
+        autostart_cb.setProperty("control", "autostart")
+        autostart_cb.setStyleSheet(load_qss("widgets/controls.qss"))
 
-        self._autostart_cb.stateChanged.connect(self._toggle_autostart)
+        autostart_cb.stateChanged.connect(self._toggle_autostart)
         cfg_btn = QPushButton(UI["configure_button"])
         cfg_btn.setFixedHeight(28)
         cfg_btn.setProperty("button", "configure")
@@ -103,26 +124,10 @@ class UniOSWelcome(QMainWindow):
         cfg_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         cfg_btn.clicked.connect(self._show_academic_config)
 
-        bottom_row.addWidget(self._autostart_cb)
+        bottom_row.addWidget(autostart_cb)
         bottom_row.addStretch()
         bottom_row.addWidget(cfg_btn)
-
-        right_col = QVBoxLayout()
-        right_col.setSpacing(10)
-        for key in NAV_RIGHT:
-            btn = NavButton(key)
-            btn.clicked.connect(lambda _, k=key: self._show_page(k))
-            right_col.addWidget(btn)
-        right_col.addStretch()
-
-        nav_layout.addLayout(left_col)
-        nav_layout.addLayout(right_col)
-        mp.addWidget(nav_widget, stretch=1)
-        mp.addLayout(bottom_row)
-
-        mp.addWidget(divider())
-        mp.addWidget(footer())
-        self._stack.addWidget(main_page)  # index 0
+        return bottom_row, autostart_cb
 
     def _build_subpages(self):
         subpages = {
@@ -136,7 +141,7 @@ class UniOSWelcome(QMainWindow):
         for key, widget in subpages.items():
             self._page_indices[key] = self._stack.addWidget(widget)
 
-    def _toggle_autostart(self, state):
+    def _toggle_autostart(self, _state):
         set_autostart(self._autostart_cb.isChecked())
 
     def _show_page(self, key):

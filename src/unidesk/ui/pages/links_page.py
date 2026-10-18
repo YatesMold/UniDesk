@@ -1,26 +1,23 @@
+"""Useful links page."""
+
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QDesktopServices
-from PyQt6.QtWidgets import QFrame, QPushButton, QVBoxLayout
+from PyQt6.QtWidgets import QPushButton
 
 from ...helpers.text_data import load
 from ...styles.loader import load_qss
-from ..widgets import qlabel, scroll_page
+from ..widgets import card, qlabel, scroll_page
 
 LINKS = load("links")["links"]
 UI = load("ui_strings")
 
 
 def build_links_page(on_back):
+    """Return the links page, with one card and Open button per link."""
     widget, cl = scroll_page(on_back, UI["links_page_title"])
 
     for link in LINKS:
-        frame = QFrame()
-        frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setProperty("layout", "card")
-        frame.setStyleSheet(load_qss("widgets/layout.qss"))
-        fl = QVBoxLayout(frame)
-        fl.setContentsMargins(14, 10, 14, 10)
-        fl.setSpacing(6)
+        frame, fl = card(spacing=6)
 
         name = qlabel(link["label"], role="card-title")
         fl.addWidget(name)

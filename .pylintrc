@@ -1,0 +1,7 @@
+[MAIN]
+# PyQt6 is a compiled extension; let pylint import it to resolve names.
+extension-pkg-allow-list=PyQt6
+
+[MESSAGES CONTROL]
+# Qt subclasses inherit their public API from the Qt base class.
+disable=too-few-public-methods

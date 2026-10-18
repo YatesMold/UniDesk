@@ -1,3 +1,5 @@
+"""Load and save the shared UniOS academic profile."""
+
 import json
 import os
 
