@@ -38,6 +38,7 @@ jobs:
       run: pylint src/unidesk/
 
     - name: Run Tests
+      if: ${{ !cancelled() }} # Run tests even when lint fails, we have to discuss this
       env:
         QT_QPA_PLATFORM: offscreen
       run: python -m pytest -q
