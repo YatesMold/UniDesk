@@ -32,13 +32,12 @@ jobs:
       run: pip install ruff pylint setuptools -e ".[dev]"
 
     - name: Run Ruff Static Analysis
-      run: ruff check src/unidesk/
+      run: ruff check src/unidesk/ tests/
 
     - name: Run Pylint
       run: pylint src/unidesk/
 
-# For when we write tests
-    # - name: Run Tests
-    #   env:
-    #     QT_QPA_PLATFORM: offscreen
-    #   run: python -m pytest -q
+    - name: Run Tests
+      env:
+        QT_QPA_PLATFORM: offscreen
+      run: python -m pytest -q
