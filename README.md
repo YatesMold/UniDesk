@@ -30,6 +30,15 @@ Then run:
 unidesk
 ```
 
+## Running the tests
+
+```bash
+pip install -e ".[dev]"
+QT_QPA_PLATFORM=offscreen python -m pytest
+```
+
+Tests never touch your real `~/.unios` or `~/.config/autostart`; `tests/conftest.py` redirects both into a temp dir. CI runs the same command on every PR.
+
 ## Project structure
 
 ```
@@ -58,6 +67,13 @@ src/unidesk/
         navigation.json       nav button labels and footer links
         ui_strings.json       buttons, titles and other interface text
         academic_institutions.json  known universities and their departments
+tests/
+    conftest.py               isolates $HOME and helper paths per test
+    test_academic_config.py   load/save of ~/.unios/academicConfig.json
+    test_autostart.py         autostart override on/off
+    test_text_data.py         JSON validity, nav/page mapping, ui_strings keys, links
+    test_styles.py            .qss loading and asset resolution
+    test_ui.py                offscreen smoke tests for the main window and config page
 ```
 
 All user-facing text lives in `assets/text_data/`. To update page content edit `pages.json`; to add a contributor edit `credits.json`. No Python changes are needed to change copy.
