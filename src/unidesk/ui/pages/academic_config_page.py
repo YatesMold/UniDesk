@@ -1,3 +1,5 @@
+"""Page for choosing the student's university and department."""
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox, QPushButton
 
@@ -10,27 +12,32 @@ UI = load("ui_strings")
 UNIVERSITIES = load("academic_institutions")["universities"]
 
 
+def _academic_combo(placeholder, items=()):
+    """Return a styled combo box holding `items`, with nothing selected."""
+    combo = QComboBox()
+    combo.setProperty("control", "academic")
+    combo.setStyleSheet(load_qss("widgets/controls.qss"))
+    combo.setPlaceholderText(placeholder)
+    combo.addItems(list(items))
+    combo.setCurrentIndex(-1)
+    return combo
+
+
 def build_academic_config_page(on_back):
+    """Return the academic profile page, pre-filled from the saved config."""
     widget, cl = scroll_page(on_back, UI["academic_config_page_title"])
 
     intro = qlabel(UI["academic_config_intro"], role="body", wrap=True)
     cl.addWidget(intro)
 
     cl.addWidget(qlabel(UI["academic_university_label"], role="field-label"))
-    university_combo = QComboBox()
-    university_combo.setProperty("control", "academic")
-    university_combo.setStyleSheet(load_qss("widgets/controls.qss"))
-    university_combo.setPlaceholderText(UI["academic_university_placeholder"])
-    university_combo.addItems(list(UNIVERSITIES.keys()))
-    university_combo.setCurrentIndex(-1)
+    university_combo = _academic_combo(
+        UI["academic_university_placeholder"], UNIVERSITIES.keys()
+    )
     cl.addWidget(university_combo)
 
     cl.addWidget(qlabel(UI["academic_department_label"], role="field-label"))
-    department_combo = QComboBox()
-    department_combo.setProperty("control", "academic")
-    department_combo.setStyleSheet(load_qss("widgets/controls.qss"))
-    department_combo.setPlaceholderText(UI["academic_department_placeholder"])
-    department_combo.setCurrentIndex(-1)
+    department_combo = _academic_combo(UI["academic_department_placeholder"])
     cl.addWidget(department_combo)
 
     status = qlabel("", role="muted", wrap=True)
