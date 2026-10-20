@@ -1,3 +1,5 @@
+"""UniDesk entry point."""
+
 import os
 import sys
 
@@ -8,6 +10,7 @@ from .ui.main_window import UniOSWelcome
 
 
 def main():
+    """Create the Qt application, show the welcome window and run it."""
     app = QApplication(sys.argv)
     app.setApplicationName("unidesk")
     app.setDesktopFileName("unidesk")
